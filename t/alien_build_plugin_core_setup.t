@@ -6,7 +6,6 @@ use MyTest;
 subtest 'compiler type' => sub {
 
   my $build = alienfile q{
-    use alienfile;
   };
 
   ok( $build->meta_prop->{platform}->{compiler_type}, 'has a compiler type' );  

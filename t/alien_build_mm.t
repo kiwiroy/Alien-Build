@@ -23,7 +23,6 @@ subtest 'basic' => sub {
   local $CWD = tempdir( CLEANUP => 1 );
 
   alienfile q{
-    use alienfile;
     probe sub {
       $ENV{ALIEN_INSTALL_TYPE};
     };
@@ -149,7 +148,6 @@ subtest 'mm_postamble' => sub {
   local $CWD = tempdir( CLEANUP => 1 );
 
   my $build = alienfile q{
-    use alienfile;
     probe sub { 'system' };
   };
 
@@ -176,7 +174,6 @@ subtest 'set_prefix' => sub {
       local $CWD = tempdir( CLEANUP => 1 );
 
       alienfile q{
-        use alienfile;
         probe sub { 'share' };
       };
   
@@ -213,7 +210,6 @@ subtest 'download + build' => sub {
   $main::call_build    = 0;
 
   alienfile q{
-    use alienfile;
 
     use Path::Tiny qw( path );
 
@@ -271,7 +267,6 @@ subtest 'patch' => sub {
   local $CWD = tempdir( CLEANUP => 1 );
   
   alienfile q{
-    use alienfile;
   };
   
   path('patch')->mkpath;

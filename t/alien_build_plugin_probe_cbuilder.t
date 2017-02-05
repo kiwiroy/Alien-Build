@@ -36,7 +36,6 @@ subtest 'basic' => sub {
   });
 
   my $build = alienfile q{
-    use alienfile;
     plugin 'Probe::CBuilder' => (
       cflags => '-I/usr/local/include',
       libs   => '-L/usr/local/lib -lfoo',
@@ -104,7 +103,6 @@ subtest 'program' => sub {
   });
 
   my $build = alienfile q{
-    use alienfile;
     plugin 'Probe::CBuilder' => (
       cflags  => '-I/usr/local/include',
       libs    => '-L/usr/local/lib -lfoo',
@@ -143,7 +141,6 @@ subtest 'program' => sub {
   });
 
   my $build = alienfile q{
-    use alienfile;
     plugin 'Probe::CBuilder' => (
       cflags  => '-I/usr/local/include',
       libs    => '-L/usr/local/lib -lfoo',

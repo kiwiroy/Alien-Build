@@ -8,7 +8,6 @@ use Path::Tiny qw( path );
 subtest 'basic' => sub {
 
   my $build = alienfile q{
-    use alienfile;
     plugin 'Fetch::Local' => (
       root => 'corpus/dist',
       url  => 'foo-1.00.tar',
@@ -99,7 +98,6 @@ subtest 'uri' => sub {
   my $url = URI::file->new(path('corpus/dist')->absolute)->as_string;
   
   my $build = alienfile qq{
-    use alienfile;
     plugin 'Fetch::Local' => (
       url  => '$url',
     );

@@ -10,7 +10,6 @@ use File::Temp qw( tempdir );
 subtest 'destdir filter' => sub {
 
   my $build = alienfile q{
-    use alienfile;
     use Path::Tiny qw( path );
     meta_prop->{destdir} = 1;
     meta_prop->{destdir_filter} = qr/^(bin|lib)\/.*$/;
@@ -54,7 +53,6 @@ subtest 'destdir filter' => sub {
 subtest 'patch' => sub {
 
   my $build = alienfile q{
-    use alienfile;
     use Path::Tiny qw( path );
     probe sub { 'share' };
     share {

@@ -1,5 +1,3 @@
-use alienfile;
-
 requires 'Foo', '1.00';
 
 configure {

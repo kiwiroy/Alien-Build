@@ -771,7 +771,6 @@ subtest 'checkpoint' => sub {
 
   my $alienfile = Path::Tiny->tempfile( TEMPLATE => 'alienfileXXXXXXX' );
   $alienfile->spew(q{
-    use alienfile;
     meta_prop->{foo1} = 'bar1';
   });
   

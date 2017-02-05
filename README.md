@@ -79,8 +79,7 @@ so that it does not interfere with other plugin or future versions of
 
 If you are writing a [alienfile](https://metacpan.org/pod/alienfile) recipe please use the prefix `my_`:
 
-    use alienfile;
-    
+    # alienfile
     meta_prop->{my_foo} = 'some value';
     
     probe sub {

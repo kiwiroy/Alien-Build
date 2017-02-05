@@ -117,8 +117,7 @@ C<plugin_fetch_newprotocol>:
 
 If you are writing a L<alienfile> recipe please use the prefix C<my_>:
 
- use alienfile;
- 
+ # alienfile
  meta_prop->{my_foo} = 'some value';
  
  probe sub {
@@ -381,13 +380,12 @@ sub load
     @args,
   );
   
-  require alienfile;
-
   eval '# line '. __LINE__ . ' "' . __FILE__ . qq("\n) . qq{
     package ${class}::Alienfile;
-    alienfile::plugin(\$_) for \@preload;
+    use Alien::Build::Alienfile;
+    Alien::Build::Alienfile::plugin(\$_) for \@preload;
     do '@{[ $file->absolute->stringify ]}';
-    alienfile::plugin(\$_) for \@postload;
+    Alien::Build::Alienfile::plugin(\$_) for \@postload;
     die \$\@ if \$\@;
   };
   die $@ if $@;

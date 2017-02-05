@@ -23,7 +23,6 @@ subtest 'non struct alienfile' => sub {
 
   eval {
     alienfile q{
-      use alienfile;
       my $foo = 'bar';
       @{ "${foo}::${foo}" } = ();
     };
@@ -38,7 +37,6 @@ subtest 'warnings alienfile' => sub {
 
   my $warning = warning { 
     alienfile q{
-      use alienfile;
       my $foo;
       my $bar = "$foo";
     };
@@ -54,7 +52,6 @@ subtest 'plugin' => sub {
   subtest 'basic' => sub {
   
     my $build = alienfile q{
-      use alienfile;
       plugin 'RogerRamjet' => ();
     };
   
@@ -74,7 +71,6 @@ subtest 'plugin' => sub {
   subtest 'default argument' => sub {
   
     my $build = alienfile q{
-      use alienfile;
       plugin 'RogerRamjet' => 'starscream';
     };
   
@@ -94,7 +90,6 @@ subtest 'plugin' => sub {
   subtest 'other arguments' => sub {
   
     my $build = alienfile q{
-      use alienfile;
       plugin 'RogerRamjet' => (
         foo => 42,
         bar => 'skywarp',
@@ -118,7 +113,6 @@ subtest 'plugin' => sub {
   subtest 'sub package' => sub {
   
     my $build = alienfile q{
-      use alienfile;
       plugin 'NesAdvantage::Controller' => ();
     };
     
@@ -129,7 +123,6 @@ subtest 'plugin' => sub {
   subtest 'negotiate' => sub {
   
     my $build = alienfile q{
-      use alienfile;
       plugin 'NesAdvantage' => ();
     };
     
@@ -140,7 +133,6 @@ subtest 'plugin' => sub {
   subtest 'fully qualified class' => sub {
   
     my $build = alienfile q{
-      use alienfile;
       plugin '=Alien::Build::Plugin::RogerRamjet' => ();
     };
   
@@ -164,7 +156,6 @@ subtest 'probe' => sub {
   subtest 'basic' => sub {
 
     my $build = alienfile q{
-      use alienfile;
       probe sub {
         my($build) = @_;
         $build->install_prop->{called_probe} = 1;
@@ -180,7 +171,6 @@ subtest 'probe' => sub {
   
     eval {
       alienfile q{
-        use alienfile;
         sys {
           probe sub { };
         };
@@ -198,7 +188,6 @@ subtest 'download' => sub {
   subtest 'basic' => sub {
     
     my $build = alienfile q{
-      use alienfile;
       use Path::Tiny qw( path );
       probe sub { 'share' };
       share {
@@ -220,7 +209,6 @@ subtest 'download' => sub {
   
     eval {
       alienfile q{
-        use alienfile;
         sys {
           download sub {};
         };
@@ -239,7 +227,6 @@ foreach my $hook (qw( fetch decode prefer extract build ))
   subtest "$hook" => sub {
   
     my $build = alienfile qq{
-      use alienfile;
       share {
         $hook sub { };
       };
@@ -257,7 +244,6 @@ subtest 'gather' => sub {
   
     eval {
       alienfile q{
-        use alienfile;
         configure {
           gather sub {};
         }
@@ -271,7 +257,6 @@ subtest 'gather' => sub {
   subtest 'system + share' => sub {
   
     my $build = alienfile q{
-      use alienfile;
       gather sub {};
     };
     
@@ -283,7 +268,6 @@ subtest 'gather' => sub {
   subtest 'system' => sub {
   
     my $build = alienfile q{
-      use alienfile;
       sys { gather sub {} };
     };
     
@@ -295,7 +279,6 @@ subtest 'gather' => sub {
   subtest 'share' => sub {
   
     my $build = alienfile q{
-      use alienfile;
       share { gather sub {} };
     };
     
@@ -307,7 +290,6 @@ subtest 'gather' => sub {
   subtest 'nada' => sub {
   
     my $build = alienfile q{
-      use alienfile;
     };
     
     is( $build->meta->has_hook('gather_system'), F() );
@@ -320,7 +302,6 @@ subtest 'gather' => sub {
 subtest 'prop' => sub {
 
   my $build = alienfile q{
-    use alienfile;
     meta_prop->{foo1} = 'bar1';
   };
   
@@ -331,7 +312,6 @@ subtest 'prop' => sub {
 subtest 'patch' => sub {
 
   my $build = alienfile q{
-    use alienfile;
     share { patch sub { } };
   };
   
@@ -344,7 +324,6 @@ subtest 'arch' => sub {
   subtest 'on' => sub {
   
     my $build = alienfile q{
-      use alienfile;
       meta_prop->{arch} = 1;
     };
     
@@ -355,7 +334,6 @@ subtest 'arch' => sub {
   subtest 'off' => sub {
 
     my $build = alienfile q{
-      use alienfile;
       meta_prop->{arch} = 0;
     };
   
@@ -364,7 +342,6 @@ subtest 'arch' => sub {
   
   subtest 'default' => sub {
     my $build = alienfile q{
-      use alienfile;
     };
   
     is( $build->meta_prop->{arch}, T());

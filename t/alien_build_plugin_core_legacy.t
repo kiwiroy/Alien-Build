@@ -8,7 +8,6 @@ use File::Temp qw( tempdir );
 subtest 'basic' => sub {
 
   my $build = alienfile q{
-    use alienfile;
     use Path::Tiny qw( path );
     probe sub { 'share' };
     share {
