@@ -250,6 +250,7 @@ sub init
     if $self->passive;
 
   $meta->prop->{plugin_download_negotiate_default_url} = $self->url;
+  $meta->prop->{follow_encrypted_only} = !!($self->url =~ /^https/);
 
   my($fetch, @decoders) = $self->pick;
 

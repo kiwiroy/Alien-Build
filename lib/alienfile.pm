@@ -289,6 +289,7 @@ sub start_url
   my $caller = caller;
   my $meta = $caller->meta;
   $meta->prop->{start_url} = $url;
+  $meta->prop->{follow_encrypted_only} = !!($url =~ /^https/);
   $meta->add_requires('configure' => 'Alien::Build' => '1.19');
   return;
 }

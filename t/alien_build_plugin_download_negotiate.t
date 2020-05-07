@@ -349,6 +349,89 @@ subtest 'prefer property' => sub {
 
   };
 
+  subtest 'follow encrypted urls only' => sub {
+    local $Alien::Build::Plugin::Fetch::CurlCommand::VERSION = '1.19';
+    my ($build, $download);
+
+    my $mock = mock 'Alien::Build::Plugin::Download::Negotiate' => (
+      override => [
+        pick => sub {
+          ('Fetch::CurlCommand', 'Decode::Mojo');
+        },
+      ],
+    );
+
+    my $meta_mock = mock 'Alien::Build::Meta';
+    $meta_mock->around(register_hook => sub {
+      my($orig, $self, @args) = @_;
+      return $orig->($self, @args) unless $args[0] eq 'fetch';
+
+      # install mock fetch https
+      $orig->($self, fetch => sub {
+        my ($build, $url) = @_;
+        $url ||= $build->meta_prop->{start_url};
+        require URI;
+        if ($url eq 'https://alienfile.org/dontpanic/') {
+          return {
+            type    => 'html',
+            base    => 'https://alienfile.org/dontpanic/',
+            content => '<html><body>'.
+            '<a href="https://alienfile.org/dontpanic/wiggle-0.01.tar.gz">v0.01</a>'.
+            '<a href="ftp://alienfile.org/dontpanic/wiggle-0.02.tar.gz">v0.02</a>'.
+            '</body></html>',
+          };
+        } elsif ($url eq 'https://alienfile.org/dontpanic/wiggle-0.01.tar.gz') {
+          return {
+            type => 'file',
+            filename => 'wiggle-0.01.tar.gz',
+            content => 'success'
+          };
+        } else {
+          return {
+            type => 'file',
+            filename => 'wiggle-0.02.tar.gz',
+            content => 'fail'
+          };
+        }
+      });
+    });
+
+    $build = alienfile_ok q{
+      use alienfile;
+
+      probe sub { 'share' };
+
+      share {
+
+        plugin Download => (
+          url => 'https://alienfile.org/dontpanic/',
+          version => qr/([0-9\.]+)\.tar\.gz$/,
+        );
+      };
+    };
+
+    $download = alien_download_ok;
+    is path($download)->slurp, 'success', 'correct download';
+
+    $build = alienfile_ok q{
+      use alienfile;
+
+      probe sub { 'share' };
+
+      share {
+
+        plugin Download => (
+          url => 'https://alienfile.org/dontpanic/',
+          version => qr/([0-9\.]+)\.tar\.gz$/,
+        );
+
+        meta_prop->{follow_encrypted_only} = 0;
+      };
+    };
+
+    $download = alien_download_ok;
+    is path($download)->slurp, 'fail', 'downgrade to ftp';
+  };
 };
 
 done_testing;

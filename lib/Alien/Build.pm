@@ -1164,8 +1164,11 @@ hash structure described below in the hook documentation.
 
 sub decode
 {
-  my($self, $res) = @_;
-  $self->_call_hook( decode => $res );
+  my ($self, $res) = @_;
+  my $decoded = $self->_call_hook(decode => $res);
+  return $decoded unless $self->meta_prop->{follow_encrypted_only};
+  @{$decoded->{list}} = grep { $_->{url} =~ /^https/ } @{$decoded->{list}};
+  return $decoded;
 }
 
 =head2 prefer
